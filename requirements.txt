@@ -1,0 +1,7 @@
+flask==2.1.1
+tensorflow==2.11.0
+scikit-learn==1.0.2
+joblib==1.1.0
+numpy>=1.22,<1.24
+jax==0.4.11
+jaxlib==0.4.11
