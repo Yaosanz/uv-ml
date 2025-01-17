@@ -1,11 +1,10 @@
-FROM python:3.10-slim
+FROM python:3.9-slim
 
-ENV PYTHONBUFFERED True
+WORKDIR /app
 
-WORKDIR $APP_HOME
-
-COPY . ./
-
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
+COPY . .
+
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "app:app"]
