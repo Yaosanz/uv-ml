@@ -1,9 +1,13 @@
-FROM python:3.9-slim
-
+FROM python:3.10-slim AS deps
 WORKDIR /app
-COPY requirements.txt /app/requirements.txt
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
-COPY . /app
-EXPOSE 8080
 
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "app:app"]
+FROM python:3.10-slim AS runner
+WORKDIR /app
+ENV FLASK_APP=app.py
+ENV FLASK_ENV=production
+ENV PORT=5000
+COPY --from=deps /app /app
+EXPOSE 5000
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
